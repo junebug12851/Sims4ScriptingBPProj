@@ -49,14 +49,14 @@ build_subpath = "build"
 projects_python_subpath = "__util" + os.sep + "Python"
 
 # The name of this project, by default it's setup to use the folder name containing the project
-project_name = Path(__file__).parent.parent.stem
+project_name = Path(__file__).parent.stem
 
 # ####################################################
 # Settings that don't make any sense for you to change
 # ####################################################
 
 # The project folder path itself
-root_path = str(Path(__file__).parent.parent)
+root_path = str(Path(__file__).parent)
 
 # These paths are calculated from the above information
 src_path = os.path.join(root_path, src_subpath)
