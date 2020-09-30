@@ -5,6 +5,8 @@ projects. To get started just download, do some super quick setup, and you're re
 libraries and compile your mod into 2 different flavors and don't forget to check back for occasional updates. 
 Read more below.
 
+I also wrote a full [tutorial here](https://medium.com/@junebug12851/the-sims-4-modern-python-modding-part-5-project-template-c9ffee48ab4e)
+
 ## What this is
 This is inspired from [andrew's tutorial](https://sims4studio.com/thread/15145/started-python-scripting) which is very 
 popular and has helped many people, including me. I've modeled it after andrew's but want to go a different direction
