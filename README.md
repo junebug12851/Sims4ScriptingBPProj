@@ -6,6 +6,8 @@ libraries and compile your mod into 2 different flavors and don't forget to chec
 Read more below.
 
 I also wrote a full [tutorial here](https://medium.com/@junebug12851/the-sims-4-modern-python-modding-part-5-project-template-c9ffee48ab4e)
+and a separate [debug tutorial](https://medium.com/@junebug12851/the-sims-4-modern-python-modding-debugging-3736b37dbd9f)
+covering the new automated debug capability.
 
 ## What this is
 This is inspired from [andrew's tutorial](https://sims4studio.com/thread/15145/started-python-scripting) which is very 
