@@ -35,6 +35,10 @@ projects_folder = os.path.expanduser(
 # Location of the game folder
 game_folder = os.path.join('C:', os.sep, 'Program Files (x86)', 'Origin Games', 'The Sims 4')
 
+# ONLY FOR USERS OF PYCHARM PRO: Location of PyCharm Professional for debug setup
+# You do not need to use PyCharm at all or the professional version, ignore this setting if you are not
+pycharm_pro_folder = os.path.join('C:', os.sep, 'Program Files', 'JetBrains', 'PyCharm 2020.2.2')
+
 # ####################################################
 # Settings that you can but generally won't change
 # ####################################################
@@ -51,6 +55,12 @@ projects_python_subpath = "__util" + os.sep + "Python"
 # The name of this project, by default it's setup to use the folder name containing the project
 project_name = Path(__file__).parent.stem
 
+# The name of the mod which will start the Pycharm debugging when entered into the game
+# ONLY FOR PYCHARM PRO USERS: If you're not using PyCharm Pro don't worry about this setting
+debug_cmd_mod_name = "pycharm-debug-cmd"
+debug_cmd_mod_src = "Utility/debug_cmd.py"
+debug_capability_name = "pycharm-debug-capability"
+
 # ####################################################
 # Settings that don't make any sense for you to change
 # ####################################################
@@ -62,7 +72,9 @@ root_path = str(Path(__file__).parent)
 src_path = os.path.join(root_path, src_subpath)
 build_path = os.path.join(root_path, build_subpath)
 projects_python_path = os.path.join(projects_folder, projects_python_subpath)
+debug_cmd_mod_src_path = os.path.join(Path(__file__).parent, debug_cmd_mod_src)
 
 # Sims 4 Data and Game Folders
 gameplay_folder_data = os.path.join(game_folder, 'Data', 'Simulation', 'Gameplay')
 gameplay_folder_game = os.path.join(game_folder, 'Game', 'Bin', 'Python')
+debug_eggs_path = os.path.join(pycharm_pro_folder, "debug-eggs", "pydevd-pycharm.egg")
