@@ -13,9 +13,18 @@
 #    limitations under the License.
 
 # Helpers
+import os
+import sys
+
 from Utility.helpers_decompile import decompile_pre, decompile_zips, decompile_print_totals
 from Utility.helpers_path import ensure_path_created, remove_dir
 from settings import gameplay_folder_data, gameplay_folder_game, projects_python_path
+
+if os.path.exists(projects_python_path):
+    print("This will wipe out the old decompilation at: " + projects_python_path)
+    answer = input("Are you sure you want to do this? [y/n]: ")
+    if answer is not "y":
+        sys.exit("Program aborted by user")
 
 print("Emptying prior decompilation...")
 remove_dir(projects_python_path)
