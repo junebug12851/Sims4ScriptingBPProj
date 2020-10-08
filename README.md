@@ -40,7 +40,8 @@ importance to have I decided to make it anyways but keep it as well-written, doc
 possible as a compromise.
 
 ## What can it do
-This provides 2 scripts currently `compile.py` and `decompile.py`.
+This provides 4 scripts currently `compile.py`, `decompile.py`, `debug_setup.py`, and `debug_teardown.py`. It also 
+provides currently 1 helper function `injector.py`.
 
 ### compile.py
 This compiles your `src` folder and creates a `build` folder with 2 versions of your mod. A `slim` version and a `full` 
@@ -69,6 +70,30 @@ through all the code in your game folder, decompiling them one-by-one placing th
 Throughout the process it prints a pretty progress meter and at the end of each module it decompiled it shows the
 success and fail stats as well as how long it took. It does this again at the end of the whole decompilation. It also
 clears out the old decompiled files for you and overall makes everything very smooth and simple.
+
+### debug_setup.py and debug_teardown.py
+
+These create and remove a debugging environment so that you can debug your game with a real debugger. The only downside
+is that it requires PyCharm Pro, which is a paid program that costs money. There's no other known way to do this. If
+you have PyCharm Pro then this will access the debugging capability in it and create 2 mods.
+
+* `pycharm-debug-capability.ts4script` which gives the Sims 4 capability to debug by connecting to PyCharm Pro
+* `pycharm-debug-cmd.ts4script` which creates a cheat code `pycharm.debug` you can enter in-game which will active
+debugging for the rest of the game.
+
+Both the cheatcode and `debug_setup.py` give clear and well-written instructions informing you of what to do and how
+to set it up or what to expect. I've also written a 
+[tutorial](https://medium.com/analytics-vidhya/the-sims-4-modern-python-modding-debugging-3736b37dbd9f) on how to
+use it.
+
+As the instructions say, run `debug_teardown.py` when not debugging because it can otherwise slow down your game.
+Sigma1202 is the person who discovered this, I just made it into a script.
+
+### src/helpers/injector.py
+
+This uses the popular injector, brought to my attention by LeRoiDesVampires and TURBOSPOOK. It's widely used in the Sims
+modding community across mods and tools. Reference it in your code to automate replacing functions in-game in a much
+prettier way with less coding. Optional to use.
 
 ## How to get started with this
 
