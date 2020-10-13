@@ -82,6 +82,12 @@ use it.
 As the instructions say, run `debug_teardown.py` when not debugging because it can otherwise slow down your game.
 Sigma1202 is the person who discovered this, I just made it into a script.
 
+### devmode.py
+
+This enters into a special mode called "Dev Mode", it clears out compiled code and links your src folder to the 
+Mod Folder. When Dev Mode is activated, you don't need to compile anymore. If you run `compile.py` though it will exit 
+Dev Mode and do a normal compile.
+
 ### fix_tuning_names.py
 
 This expects you to have extracted the tuning files from `Sims 4 Studio` with the `Sub-Folders` option checked. What 

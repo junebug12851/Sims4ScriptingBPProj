@@ -20,6 +20,7 @@ import py_compile
 from zipfile import PyZipFile, ZIP_STORED
 
 from Utility.helpers_path import remove_file, ensure_path_created, get_rel_path, replace_extension, remove_dir
+from Utility.helpers_symlink import symlink_remove_win, symlink_exists_win
 
 
 def compile_slim(src_dir: str, zf: PyZipFile) -> None:
@@ -100,8 +101,13 @@ def compile_src(creator_name: str, src_dir: str, build_dir: str, mods_dir: str, 
     print("Clearing out old builds...")
 
     # Delete and re-create build and sub-folder in Mods
+    is_devmode = symlink_exists_win("", mods_dir, mod_name)
+    symlink_remove_win("", mods_dir, mod_name)
+
+    if is_devmode:
+        print("Exiting Dev Mode...")
+
     remove_dir(build_dir)
-    remove_dir(mods_sub_dir)
 
     ensure_path_created(build_dir)
     ensure_path_created(mods_sub_dir)

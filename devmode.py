@@ -12,12 +12,18 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
-# Helpers
-from Utility.helpers_compile import compile_src
-from settings import mods_folder, src_path, creator_name, build_path, project_name
+from Utility.helpers_symlink import symlink_create_win, symlink_exists_win
+from settings import mods_folder, src_path, creator_name, project_name
+
+is_devmode = symlink_exists_win(creator_name, mods_folder, project_name)
+
+if is_devmode:
+    print("You're already in Dev Mode")
+    raise SystemExit(1)
 
 try:
-    compile_src(creator_name, src_path, build_path, mods_folder, project_name)
+    symlink_create_win(creator_name, src_path, mods_folder, project_name)
 except:
     print("An error occurred!")
     pass
+
