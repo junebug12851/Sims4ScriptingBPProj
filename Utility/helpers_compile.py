@@ -19,7 +19,7 @@ import shutil
 import py_compile
 from zipfile import PyZipFile, ZIP_STORED
 
-from Utility.helpers_path import remove_file, ensure_path_created, get_rel_path, replace_extension
+from Utility.helpers_path import remove_file, ensure_path_created, get_rel_path, replace_extension, remove_dir
 
 
 def compile_slim(src_dir: str, zf: PyZipFile) -> None:
@@ -27,6 +27,9 @@ def compile_slim(src_dir: str, zf: PyZipFile) -> None:
     Compiles a slim mod (Contains only the pyc files)
     Modified from andrew's code.
     https://sims4studio.com/thread/15145/started-python-scripting
+
+    It is not reccomended to use this function because it's not reccomended to only have pyc files in your project
+    as it makes your project less flexible. Going forward this will nto be called by default.
 
     :param src_dir: source folder
     :param zf: Zip File Handle
@@ -88,35 +91,30 @@ def compile_src(creator_name: str, src_dir: str, build_dir: str, mods_dir: str, 
 
     # Prepend creator name to mod name
     mod_name = creator_name + '_' + mod_name
+    mods_sub_dir = os.path.join(mods_dir, mod_name)
 
     # Create ts4script paths
-    ts4script_slim_build_path = os.path.join(build_dir, mod_name + '-slim.ts4script')
-    ts4script_full_build_path = os.path.join(build_dir, mod_name + '-full.ts4script')
-    ts4script_mod_path = os.path.join(mods_dir, mod_name + '-slim.ts4script')
+    ts4script_full_build_path = os.path.join(build_dir, mod_name + '.ts4script')
+    ts4script_mod_path = os.path.join(mods_sub_dir, mod_name + '.ts4script')
 
     print("Clearing out old builds...")
 
-    # Ensure the build directory is created
-    ensure_path_created(build_dir)
+    # Delete and re-create build and sub-folder in Mods
+    remove_dir(build_dir)
+    remove_dir(mods_sub_dir)
 
-    #  Remove all previously built mods
-    remove_file(ts4script_slim_build_path)
-    remove_file(ts4script_full_build_path)
-    remove_file(ts4script_mod_path)
+    ensure_path_created(build_dir)
+    ensure_path_created(mods_sub_dir)
 
     print("Re-building mod...")
 
-    # Compile 2 versions of the mod, a slim version and a full version
-    zf = PyZipFile(ts4script_slim_build_path, mode='w', compression=ZIP_STORED, allowZip64=True, optimize=2)
-    compile_slim(src_dir, zf)
-    zf.close()
-
+    # Compile the mod
     zf = PyZipFile(ts4script_full_build_path, mode='w', compression=ZIP_STORED, allowZip64=True, optimize=2)
     compile_full(src_dir, zf)
     zf.close()
 
-    # Copy the slim version of the mod over to the mods folder
-    shutil.copyfile(ts4script_slim_build_path, ts4script_mod_path)
+    # Copy it over to the mods folder
+    shutil.copyfile(ts4script_full_build_path, ts4script_mod_path)
 
     print("----------")
     print("Complete")

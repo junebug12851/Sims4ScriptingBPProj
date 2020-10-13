@@ -44,23 +44,16 @@ This provides 4 scripts currently `compile.py`, `decompile.py`, `debug_setup.py`
 provides currently 1 helper function `injector.py`.
 
 ### compile.py
-This compiles your `src` folder and creates a `build` folder with 2 versions of your mod. A `slim` version and a `full` 
-version. It then copies the slim version to your Sims 4 Mods folder removing the old one.
+This compiles and packages your `src` folder and creates a `build` folder containing your packaged mod ready for 
+deployment. It then copies your packaged mod to the games Mods folder under it's own sub-folder 
+`Mods/YourName_ProjectName/YourName_ProjectName.ts4script`.
 
-* The slim version contains only the compiled python files and that's it because that's all that the game needs. 
-Therefore the slim version is, well, slim and small.
-* The full version contains everything in your `src` folder. Whatever you place in there will be copied to the full 
-version including the un-compiled code (source code). Next to all the source code, though, is an identical compiled 
-code. This mod is not going to be slim, it's going to be more full and contain stuff the game doesn't need to run.
-
-***If the game doesn't need all the stuff in the full version, why add it in there?*** The only reason you would want
-to distribute the full version is if your thinking about the players who might want to open it up and look inside. With
-the full version you can distribute a special license file next to the source code and even links, etc... This can allow
-players to look inside, see the source code, maybe tinker with your mod, etc... Because it can promote learning and fun.
-
-If you don't care about any of that then distribute the slim version because none of that stuff is in the slim version
-and if the player opens a slim version they're just going to see compiled code and be unable to read it without using
-a decompiler.
+**Update:**
+The old behaviour was to create 2 mod files, a `slim` version and a `full` version. It no longer does this and opts to
+only build a full version. The reason why is new information was learned about The Sims 4 loading process and it's
+highly discouraged to only include compiled python files. I wrote a tutorial 
+[about it here](https://medium.com/swlh/the-sims-4-modern-python-modding-ultimate-loading-guide-77ce1b68f1e7) detailing 
+the reasoning behind this change.
 
 ### decompile.py
 I put a lot of work into this and this is a big area where mine greatly differs from `andrew`. It leverages the latest 
