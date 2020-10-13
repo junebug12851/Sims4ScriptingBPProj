@@ -40,8 +40,8 @@ importance to have I decided to make it anyways but keep it as well-written, doc
 possible as a compromise.
 
 ## What can it do
-This provides 4 scripts currently `compile.py`, `decompile.py`, `debug_setup.py`, and `debug_teardown.py`. It also 
-provides currently 1 helper function `injector.py`.
+This provides 5 scripts currently `compile.py`, `decompile.py`, `debug_setup.py`, `debug_teardown.py`, and 
+`fix_tuning_names.py`. It also provides currently 1 helper function `injector.py`.
 
 ### compile.py
 This compiles and packages your `src` folder and creates a `build` folder containing your packaged mod ready for 
@@ -81,6 +81,20 @@ use it.
 
 As the instructions say, run `debug_teardown.py` when not debugging because it can otherwise slow down your game.
 Sigma1202 is the person who discovered this, I just made it into a script.
+
+### fix_tuning_names.py
+
+This expects you to have extracted the tuning files from `Sims 4 Studio` with the `Sub-Folders` option checked. What 
+this does is go through each and every tuning file and rename it to a much cleaner and better name.
+
+For example:
+
+```
+From: "03B33DDF!00000000!0D94E80BE40B3604.sims.loan_tuning.Tuning.xml"
+To: "sims_loan_tuning.xml"
+```
+
+Vastly prettier and cleaner don't you agree?
 
 ### src/helpers/injector.py
 
