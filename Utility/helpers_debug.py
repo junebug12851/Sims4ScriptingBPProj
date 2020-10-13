@@ -19,7 +19,8 @@ import shutil
 from pathlib import Path
 from zipfile import PyZipFile, ZIP_STORED
 
-from Utility.helpers_path import get_sys_folder, get_rel_path, remove_file, replace_extension, remove_dir
+from Utility.helpers_path import get_sys_folder, get_rel_path, remove_file, replace_extension, remove_dir, \
+    ensure_path_created
 from Utility.helpers_package import install_package
 
 # Thank you to Sigma1202 from https://www.youtube.com/watch?v=RBnS8m0174U
@@ -51,23 +52,24 @@ def debug_ensure_pycharm_debug_package_installed() -> None:
     install_package("pydevd-pycharm~=202.7319.64")
 
 
-def debug_install_mod(mod_src: str, mods_dir: str, mod_name: str) -> None:
+def debug_install_mod(mod_src: str, mods_dir: str, mod_name: str, mod_folder_name: str) -> None:
     """
     Compiles and installs the mod which adds a cheat code so the user can setup the debugger in-game
 
     :param mod_src: Path to the script which does this
     :param mods_dir: Path to the users mod folder
     :param mod_name: Name of the mod
+    :param mod_folder_name: Name of mod Subfolder
     :return: Nothing
     """
 
     print("Compiling and installing the debugging cheatcode mod...")
 
     # Get destination file path
-    mod_path = os.path.join(mods_dir, mod_name + '.ts4script')
+    mods_sub_dir = os.path.join(mods_dir, mod_folder_name)
+    mod_path = os.path.join(mods_sub_dir, mod_name + '.ts4script')
 
-    # Remove old mod there, if it exists
-    remove_file(mod_path)
+    ensure_path_created(mods_sub_dir)
 
     # Get compiled path and compile mod
     mod_src_pyc = replace_extension(mod_src, "pyc")
@@ -79,7 +81,7 @@ def debug_install_mod(mod_src: str, mods_dir: str, mod_name: str) -> None:
     zf.close()
 
 
-def debug_install_egg(egg_path: str, mods_dir, dest_name: str) -> None:
+def debug_install_egg(egg_path: str, mods_dir, dest_name: str, mod_folder_name: str) -> None:
     """
     Copies the debug egg provided by Pycharm Pro which adds the capability to make debugging happen inside of
     PyCharm Pro. A bit of work goes into this so it'll be much slower.
@@ -87,13 +89,17 @@ def debug_install_egg(egg_path: str, mods_dir, dest_name: str) -> None:
     :param egg_path: Path to the debug egg
     :param mods_dir: Path to the mods folder
     :param dest_name: Name of the mod
+    :param mod_folder_name: Name of mod Subfolder
     :return:
     """
 
     print("Re-packaging and installing the debugging capability mod...")
     # Get egg filename and path
     filename = Path(egg_path).name
-    mod_path = os.path.join(mods_dir, dest_name + ".ts4script")
+    mods_sub_dir = os.path.join(mods_dir, mod_folder_name)
+    mod_path = os.path.join(mods_sub_dir, dest_name + ".ts4script")
+
+    ensure_path_created(mods_sub_dir)
 
     # Get python ctypes folder
     sys_ctypes_folder = os.path.join(get_sys_folder(), "Lib", "ctypes")
@@ -144,21 +150,15 @@ def debug_install_egg(egg_path: str, mods_dir, dest_name: str) -> None:
         pass
 
 
-def debug_teardown(mods_dir: str, debug_mod_name: str, debug_capability_name: str) -> None:
+def debug_teardown(mods_dir: str, mod_folder_name: str) -> None:
     """
     Deletes the 2 mods, they technically cause the running game to slow down
 
     :param mods_dir: Path to mods directory
-    :param debug_mod_name: Name of mod that provides the debug cheat code
-    :param debug_capability_name: Name of mod that provides the debug capability
+    :param mod_folder_name: Name of mod Subfolder
     :return: Nothing
     """
 
     print("Removing the debugging mod files...")
-    # Convert names and folders back to paths
-    egg_mod_path = os.path.join(mods_dir, debug_capability_name + ".ts4script")
-    debug_mod_path = os.path.join(mods_dir, debug_mod_name + '.ts4script')
-
-    # Remove 2 files at the path
-    remove_file(egg_mod_path)
-    remove_file(debug_mod_path)
+    mods_sub_dir = os.path.join(mods_dir, mod_folder_name)
+    remove_dir(mods_sub_dir)

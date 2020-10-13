@@ -61,6 +61,7 @@ project_name = Path(__file__).parent.stem
 debug_cmd_mod_name = "pycharm-debug-cmd"
 debug_cmd_mod_src = "Utility/debug_cmd.py"
 debug_capability_name = "pycharm-debug-capability"
+debug_mod_subfolder = "PyCharmPro_Debug"
 
 # ####################################################
 # Settings that don't make any sense for you to change
