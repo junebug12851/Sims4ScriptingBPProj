@@ -63,7 +63,7 @@ def debug_install_mod(mod_src: str, mods_dir: str, mod_name: str, mod_folder_nam
     :return: Nothing
     """
 
-    print("Compiling and installing the debugging cheatcode mod...")
+    print("Compiling and installing the cheatcode mod...")
 
     # Get destination file path
     mods_sub_dir = os.path.join(mods_dir, mod_folder_name)

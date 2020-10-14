@@ -88,6 +88,13 @@ This enters into a special mode called "Dev Mode", it clears out compiled code a
 Mod Folder. When Dev Mode is activated, you don't need to compile anymore. If you run `compile.py` though it will exit 
 Dev Mode and do a normal compile.
 
+When inside of Dev Mode you can enter the cheat `devmode.reload [path.to.module]`, it'll reload the file live while
+the game is running so it doesn't need to be closed and re-opened. For example, to reload main.py enter 
+`devmode.reload main`. You can also enter paths to folders to reload the entire folder just by itself to reload the 
+entire project.
+
+This only works in devmode 
+
 ### fix_tuning_names.py
 
 This expects you to have extracted the tuning files from `Sims 4 Studio` with the `Sub-Folders` option checked. What 

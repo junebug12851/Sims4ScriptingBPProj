@@ -162,7 +162,8 @@ def symlink_create_win(creator_name: str, src_dir: str, mods_dir: str, mod_name:
              '"' + src_dir + '"')
 
     print("")
-    print("Dev Mode is activated, you no longer have to compile after each change")
-    print("To exit dev mode, simply run 'compile.py' which will return things to normal")
+    print("Dev Mode is activated, you no longer have to compile after each change, run devmode.reload [path.of.module]")
+    print("to reload individual files while the game is running. To exit dev mode, simply run 'compile.py' which will")
+    print("return things to normal.")
     print("It's recomended to test a compiled version before final release after working in Dev Mode")
     print("")

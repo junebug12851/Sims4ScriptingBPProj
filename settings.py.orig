@@ -56,6 +56,10 @@ projects_tuning_subpath = "__util" + os.sep + "Tuning"
 # The name of this project, by default it's setup to use the folder name containing the project
 project_name = Path(__file__).parent.stem
 
+# Dev Mode
+devmode_cmd_mod_src = "Utility/devmode_cmd.py"
+devmode_cmd_mod_name = "devmode-cmd"
+
 # The name of the mod which will start the Pycharm debugging when entered into the game
 # ONLY FOR PYCHARM PRO USERS: If you're not using PyCharm Pro don't worry about this setting
 debug_cmd_mod_name = "pycharm-debug-cmd"
@@ -73,6 +77,7 @@ root_path = str(Path(__file__).parent)
 # These paths are calculated from the above information
 src_path = os.path.join(root_path, src_subpath)
 build_path = os.path.join(root_path, build_subpath)
+devmode_cmd_mod_src_path = os.path.join(Path(__file__).parent, devmode_cmd_mod_src)
 projects_python_path = os.path.join(projects_folder, projects_python_subpath)
 projects_tuning_path = os.path.join(projects_folder, projects_tuning_subpath)
 debug_cmd_mod_src_path = os.path.join(Path(__file__).parent, debug_cmd_mod_src)
