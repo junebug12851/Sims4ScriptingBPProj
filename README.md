@@ -114,6 +114,18 @@ Running this script searches the top-level assets folder for any `.package` file
 Mod Name Folder alongside your scripts. It's automatically run with `compile.py` and `devmode.py` and you can run it
 anytime yourself.
 
+### cleanup.py
+
+Removes all build artifacts
+
+* The build folder
+* The Mod Name folder in Mods
+* Debug functionality
+
+When completed, all traces of anything built by the project template for your mod will be removed leaving a fresh slate.
+This is common when you just want to clean everything up, especially after your all done developing and want to
+essentially "Un-Build" and "Un-Make" everything.
+
 ### src/helpers/injector.py
 
 This uses the popular injector, brought to my attention by LeRoiDesVampires and TURBOSPOOK. It's widely used in the Sims
