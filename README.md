@@ -114,6 +114,12 @@ Running this script searches the top-level assets folder for any `.package` file
 Mod Name Folder alongside your scripts. It's automatically run with `compile.py` and `devmode.py` and you can run it
 anytime yourself.
 
+### bundle_build.py
+
+Zips up the build artifacts in a way that can be sent to Sims 4 Players or Mod Websites. It nests all the build 
+artifacts in a subfolder named `CreatorName_ProjectName`. This way the player can directly unzip your mod into the Mods
+folder and it will all be self-contained in it's own folder.
+
 ### cleanup.py
 
 Removes all build artifacts
