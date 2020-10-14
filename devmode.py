@@ -24,6 +24,7 @@ if is_devmode:
 try:
     symlink_create_win(creator_name, src_path, mods_folder, project_name)
     debug_install_mod(devmode_cmd_mod_src_path, mods_folder, devmode_cmd_mod_name, creator_name + "_" + project_name)
+    exec(open("sync_packages.py").read())
 except:
     print("An error occurred!")
     pass

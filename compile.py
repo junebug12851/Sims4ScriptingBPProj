@@ -18,6 +18,7 @@ from settings import mods_folder, src_path, creator_name, build_path, project_na
 
 try:
     compile_src(creator_name, src_path, build_path, mods_folder, project_name)
+    exec(open("sync_packages.py").read())
 except:
     print("An error occurred!")
     pass

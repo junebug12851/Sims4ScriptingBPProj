@@ -49,6 +49,9 @@ src_subpath = "src"
 # Folder within this project that your mods will be built to
 build_subpath = "build"
 
+# To hold asset files like xml tuning files and packages
+assets_subpath = "assets"
+
 # Subpath inside the projects folder to place decompiled python files
 projects_python_subpath = "__util" + os.sep + "Python"
 projects_tuning_subpath = "__util" + os.sep + "Tuning"
@@ -77,6 +80,7 @@ root_path = str(Path(__file__).parent)
 # These paths are calculated from the above information
 src_path = os.path.join(root_path, src_subpath)
 build_path = os.path.join(root_path, build_subpath)
+assets_path = os.path.join(root_path, assets_subpath)
 devmode_cmd_mod_src_path = os.path.join(Path(__file__).parent, devmode_cmd_mod_src)
 projects_python_path = os.path.join(projects_folder, projects_python_subpath)
 projects_tuning_path = os.path.join(projects_folder, projects_tuning_subpath)

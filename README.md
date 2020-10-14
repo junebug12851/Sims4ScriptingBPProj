@@ -40,8 +40,7 @@ importance to have I decided to make it anyways but keep it as well-written, doc
 possible as a compromise.
 
 ## What can it do
-This provides 5 scripts currently `compile.py`, `decompile.py`, `debug_setup.py`, `debug_teardown.py`, and 
-`fix_tuning_names.py`. It also provides currently 1 helper function `injector.py`.
+This provides several scripts you can run and use in your workflow and mod
 
 ### compile.py
 This compiles and packages your `src` folder and creates a `build` folder containing your packaged mod ready for 
@@ -108,6 +107,12 @@ To: "sims_loan_tuning.xml"
 ```
 
 Vastly prettier and cleaner don't you agree?
+
+### sync_packages.py
+
+Running this script searches the top-level assets folder for any `.package` files and then copies them to your
+Mod Name Folder alongside your scripts. It's automatically run with `compile.py` and `devmode.py` and you can run it
+anytime yourself.
 
 ### src/helpers/injector.py
 
