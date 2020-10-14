@@ -17,38 +17,60 @@ import fnmatch
 
 import os
 import shutil
-from settings import assets_path, mods_folder, creator_name, project_name
+from settings import assets_path, mods_folder, creator_name, project_name, build_path
 from Utility.helpers_path import ensure_path_created, remove_file
 
 mod_name_folder_path = mods_folder + os.sep + creator_name + "_" + project_name
 
 ensure_path_created(mod_name_folder_path)
-
-files_added = 0
 file_list_failed = []
 
-# Remove existing package files
-for root, dirs, files in os.walk(mod_name_folder_path):
-    for filename in fnmatch.filter(files, "*.package"):
-        remove_file(root + os.sep + filename)
 
-    # Only cover the top-level folder
-    break
+def remove_tl_packages(path: str) -> int:
+    count = 0
 
-# Copy new package files to Mod Folder
-for root, dirs, files in os.walk(assets_path):
-    for filename in fnmatch.filter(files, "*.package"):
-        try:
-            shutil.copy(root + os.sep + filename,
-                        mod_name_folder_path + os.sep + filename)
-            files_added+=1
-        except:
-            file_list_failed.append(root + os.sep + filename)
+    # Remove existing package files
+    for root, dirs, files in os.walk(path):
+        for filename in fnmatch.filter(files, "*.package"):
+            remove_file(root + os.sep + filename)
+            count+=1
 
-    # Only cover the top-level folder
-    break
+        # Only cover the top-level folder
+        break
+    return count
 
-print("Updated: " + str(files_added) + " package(s)")
+
+def copy_tl_packages(src: str, dest: str) -> int:
+    count = 0
+
+    # Copy new package files
+    for root, dirs, files in os.walk(src):
+        for filename in fnmatch.filter(files, "*.package"):
+            try:
+                shutil.copy(root + os.sep + filename,
+                            dest + os.sep + filename)
+                count += 1
+            except:
+                file_list_failed.append(root + os.sep + filename)
+
+        # Only cover the top-level folder
+        break
+
+    return count
+
+
+files_removed = remove_tl_packages(mod_name_folder_path)
+remove_tl_packages(build_path)
+
+files_added = copy_tl_packages(assets_path, mod_name_folder_path)
+copy_tl_packages(assets_path, build_path)
+
+file_difference = files_added - files_removed
+
+print("Synced packages:" +
+      " +" + str(files_added) +
+      " -" + str(files_removed) +
+      " ~" + str(file_difference))
 
 if len(file_list_failed) > 0:
     print("")
