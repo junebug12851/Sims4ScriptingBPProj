@@ -89,10 +89,10 @@ Dev Mode and do a normal compile.
 
 When inside of Dev Mode you can enter the cheat `devmode.reload [path.to.module]`, it'll reload the file live while
 the game is running so it doesn't need to be closed and re-opened. For example, to reload main.py enter 
-`devmode.reload main`. You can also enter paths to folders to reload the entire folder just by itself to reload the 
-entire project.
+`devmode.reload main`. You can also enter paths to folders which will reload the entire folder or just not specify a 
+path which will reload the entire project.
 
-This only works in devmode 
+This only works in devmode.
 
 ### fix_tuning_names.py
 
