@@ -39,6 +39,9 @@ game_folder = os.path.join('C:', os.sep, 'Program Files (x86)', 'Origin Games', 
 # You do not need to use PyCharm at all or the professional version, ignore this setting if you are not
 pycharm_pro_folder = os.path.join('C:', os.sep, 'Program Files', 'JetBrains', 'PyCharm 2020.2.2')
 
+# The decompiler to use ['unpyc3', 'decompyle3', 'uncompyle6']
+decompiler = 'unpyc3'
+
 # ####################################################
 # Settings that you can but generally won't change
 # ####################################################

@@ -18,7 +18,7 @@ import sys
 
 from Utility.helpers_decompile import decompile_pre, decompile_zips, decompile_print_totals
 from Utility.helpers_path import ensure_path_created, remove_dir
-from settings import gameplay_folder_data, gameplay_folder_game, projects_python_path
+from settings import gameplay_folder_data, gameplay_folder_game, projects_python_path, decompiler_name
 
 if os.path.exists(projects_python_path):
     print("This will wipe out the old decompilation at: " + projects_python_path)
@@ -33,7 +33,7 @@ remove_dir(projects_python_path)
 ensure_path_created(projects_python_path)
 
 # Do a pre-setup
-decompile_pre()
+decompile_pre(decompiler_name)
 
 # Decompile all zips to the python projects folder
 print("")
@@ -42,8 +42,8 @@ print("THIS WILL SERIOUSLY TAKE A VERY LONG TIME!!! " +
       "Additionally many files will not decompile properly which is normal.")
 print("")
 
-decompile_zips(gameplay_folder_data, projects_python_path)
-decompile_zips(gameplay_folder_game, projects_python_path)
+decompile_zips(gameplay_folder_data, projects_python_path, decompiler_name)
+decompile_zips(gameplay_folder_game, projects_python_path, decompiler_name)
 
 # Print final statistics
 decompile_print_totals()
