@@ -215,8 +215,16 @@ def decompile_zips(src_dir: str, dst_dir: str, decompiler_name: str) -> None:
 
 def decompile_print_totals() -> None:
     print("Results")
-    print("S: " + str(total_suc_count) + " [" + str(round((total_suc_count / total_count) * 100, 2)) + "%], ", end="")
-    print("F: " + str(total_fail_count) + " [" + str(round((total_fail_count / total_count) * 100, 2)) + "%], ", end="")
-    print("T: " + str(total_count) + ", ", end="")
-    print(get_time_str(total_minutes))
+
+    # Fix Bug #1
+    # https://github.com/junebug12851/Sims4ScriptingBPProj/issues/1
+    try:
+        print("S: " + str(total_suc_count) + " [" + str(round((total_suc_count / total_count) * 100, 2)) + "%], ", end="")
+        print("F: " + str(total_fail_count) + " [" + str(round((total_fail_count / total_count) * 100, 2)) + "%], ", end="")
+        print("T: " + str(total_count) + ", ", end="")
+        print(get_time_str(total_minutes))
+    except:
+        print("No files were processed, an error has occurred. Is the path to the game folder correct?")
+        pass
+
     print("")
