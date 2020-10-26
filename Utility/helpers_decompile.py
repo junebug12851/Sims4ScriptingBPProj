@@ -24,6 +24,7 @@ from pathlib import Path
 from Utility.helpers_path import replace_extension, get_rel_path, get_file_stem, ensure_path_created
 from Utility.helpers_package import install_package, exec_package
 from Utility.helpers_time import get_time, get_time_str, get_minutes
+from Utility.helpers_unpyc3 import unpyc3_decompile
 
 # Globals
 script_package_types = ['*.zip', '*.ts4script']
@@ -36,19 +37,36 @@ total_count = 0
 total_minutes = 0
 
 
-def decompile_pre() -> None:
+def decompile_pre(decompiler_name: str) -> None:
     """
-    Here we ensure uncompyle6 is installed and install it if not
+    Here we ensure decompiler is installed
+    If the decompiler is `uncompyle6` then we can install it via pip
     We do this first because installation can create an error
 
+    :param decompiler_name: Decompiler program to use
     :return: Nothing
     """
 
-    print("Checking for decompiler and installing if needed...")
-    install_package("uncompyle6")
+    print("Checking for " + decompiler_name + " decompiler...")
+    missing_decompiler = False
+    try:
+        if decompiler_name == "uncompyle6":
+            install_package("uncompyle6")
+        elif decompiler_name == "unpyc3":
+            import Utility.unpyc37.unpyc3
+        elif decompiler_name == "decompyle3":
+            import decompyle3
+        else:
+            missing_decompiler = True
+    except:
+        missing_decompiler = True
+
+    if missing_decompiler:
+        print("ERROR: Missing " + decompiler_name + " decompiler.")
+        exit(1)
 
 
-def decompile_dir(src_dir: str, dest_dir: str, filename: str) -> None:
+def decompile_dir(src_dir: str, dest_dir: str, filename: str, decompiler_name: str) -> None:
     """
     Decompiles a directory of compiled python files to a different directory
     Modified from andrew's code.
@@ -57,6 +75,7 @@ def decompile_dir(src_dir: str, dest_dir: str, filename: str) -> None:
     :param src_dir: Path of dir to decompile
     :param dest_dir: Path of dir to send decompiled files to
     :param filename: Original filename of what's being decompiled (For progress output purposes)
+    :param decompiler_name: Decompiler program to use
     :return: Nothing
     """
 
@@ -93,9 +112,13 @@ def decompile_dir(src_dir: str, dest_dir: str, filename: str) -> None:
             ensure_path_created(str(Path(dest_file_path).parent))
 
             # Decompile it to destination
-            success = exec_package("uncompyle6",
-                                   "-o " + '"' + dest_file_path + '"' + " " +
-                                   '"' + src_file_path + '"')
+            success = False
+            if decompiler_name == "uncompyle6" or decompiler_name == "decompyle3":
+                success = exec_package(decompiler_name,
+                                       "-o " + '"' + dest_file_path + '"' + " " +
+                                       '"' + src_file_path + '"')
+            elif decompiler_name == "unpyc3":
+                success = unpyc3_decompile(dest_file_path, src_file_path)
 
             # Print progress
             # Prints a single dot on the same line which gives a nice clean progress report
@@ -133,7 +156,7 @@ def decompile_dir(src_dir: str, dest_dir: str, filename: str) -> None:
     print("")
 
 
-def decompile_zip(src_dir: str, filename: str, dst_dir: str) -> None:
+def decompile_zip(src_dir: str, filename: str, dst_dir: str, decompiler_name: str) -> None:
     """
     Copies a zip file to a temporary folder, extracts it, and then decompiles it to the projects folder
     Modified from andrew's code.
@@ -142,6 +165,7 @@ def decompile_zip(src_dir: str, filename: str, dst_dir: str) -> None:
     :param src_dir: Source directory for zip file
     :param filename: zip filename
     :param dst_dir: Destination for unzipped files
+    :param decompiler_name: Decompiler program to use
     :return: Nothing
     """
 
@@ -162,7 +186,7 @@ def decompile_zip(src_dir: str, filename: str, dst_dir: str) -> None:
     zip.extractall(tmp_dir.name)
 
     # Decompile the directory
-    decompile_dir(tmp_dir.name, dst_dir, filename)
+    decompile_dir(tmp_dir.name, dst_dir, filename, decompiler_name)
 
     # There's a temporary directory bug that causes auto-cleanup to sometimes fail
     # We're preventing crash messages from flooding the screen to keep things tidy
@@ -172,7 +196,7 @@ def decompile_zip(src_dir: str, filename: str, dst_dir: str) -> None:
         pass
 
 
-def decompile_zips(src_dir: str, dst_dir: str) -> None:
+def decompile_zips(src_dir: str, dst_dir: str, decompiler_name: str) -> None:
     """
     Decompiles a folder of zip files to a destination folder
     Modified from andrew's code.
@@ -180,12 +204,13 @@ def decompile_zips(src_dir: str, dst_dir: str) -> None:
 
     :param src_dir: Directory to search for and decompile zip files
     :param dst_dir: Directory to send decompiled files to
+    :param decompiler_name: Decompiler program to use
     :return: Nothing
     """
     for root, dirs, files in os.walk(src_dir):
         for ext_filter in script_package_types:
             for filename in fnmatch.filter(files, ext_filter):
-                decompile_zip(root, filename, dst_dir)
+                decompile_zip(root, filename, dst_dir, decompiler_name)
 
 
 def decompile_print_totals() -> None:
