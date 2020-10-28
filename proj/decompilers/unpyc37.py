@@ -1,11 +1,16 @@
+import os
+
+from pathlib import Path
+
 import io
+import sys
 
 try:
-    import Utility.unpyc37.unpyc3
+    sys.path.insert(0, str(Path(__file__).parent) + os.sep + "unpyc37")
+    import unpyc3
     UNPYC37_AVAILABLE = True
 except:
     pass
-
 
 def unpyc3_decompile(dest_file_path: str, src_file_path: str) -> bool:
     """
