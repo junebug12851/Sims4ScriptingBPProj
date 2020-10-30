@@ -65,10 +65,6 @@ def debug_install_mod(mod_src: str, mods_dir: str, mod_name: str, mod_folder_nam
 
     print("Compiling and installing the cheatcode mod...")
 
-    # Get destination file path
-    mods_sub_dir = os.path.join(mods_dir, mod_folder_name)
-    mod_path = os.path.join(mods_sub_dir, mod_name + '.ts4script')
-
     ensure_path_created(mods_sub_dir)
 
     # Get compiled path and compile mod
@@ -95,14 +91,8 @@ def debug_install_egg(egg_path: str, mods_dir, dest_name: str, mod_folder_name: 
 
     print("Re-packaging and installing the debugging capability mod...")
     # Get egg filename and path
-    filename = Path(egg_path).name
-    mods_sub_dir = os.path.join(mods_dir, mod_folder_name)
-    mod_path = os.path.join(mods_sub_dir, dest_name + ".ts4script")
 
     ensure_path_created(mods_sub_dir)
-
-    # Get python ctypes folder
-    sys_ctypes_folder = os.path.join(get_sys_folder(), "Lib", "ctypes")
 
     # Create temp directory
     tmp_dir = tempfile.TemporaryDirectory()
@@ -160,5 +150,4 @@ def debug_teardown(mods_dir: str, mod_folder_name: str) -> None:
     """
 
     print("Removing the debugging mod files...")
-    mods_sub_dir = os.path.join(mods_dir, mod_folder_name)
     remove_dir(mods_sub_dir)

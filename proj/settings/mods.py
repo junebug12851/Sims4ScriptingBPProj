@@ -18,6 +18,9 @@ mod_debug_capability_build_name = "pycharm-debug-capability"
 # Name of built mod that triggers devmode reloading
 mod_devmode_cmd_build_name = "devmode-cmd"
 
+# Filename of the debug egg
+debug_egg_filename = "pydevd-pycharm.egg"
+
 # Variables that depend on other variables need to be enclosed in a function so that if the user overrides the variables
 # the changes will be reflected.
 
@@ -58,4 +61,4 @@ def debug_eggs_path() -> str:
     Generates a full path to the Debug Capability Egg File provided by PyCharm Pro to be fixed and placed inside the
     game.
     """
-    return os.path.join(pycharm_pro_path, "debug-eggs", "pydevd-pycharm.egg")
+    return os.path.join(pycharm_pro_path, "debug-eggs", debug_egg_filename)

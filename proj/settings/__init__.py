@@ -8,6 +8,7 @@ from proj.settings.project import *
 from proj.settings.projects import *
 from proj.settings.mods import *
 from proj.settings.compiling import *
+from proj.settings.pysys import *
 
 # Attempt to import user-overides, replacing defaults
 try:

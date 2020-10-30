@@ -53,33 +53,6 @@ def replace_extension(file: str, new_ext: str) -> str:
     return str(p.parent) + os.path.sep + p.stem + "." + new_ext
 
 
-def get_sys_path() -> str:
-    """
-    Returns absolute path to python executable
-
-    :return: Absolute path to Python executable
-    """
-    return sys.executable
-
-
-def get_sys_folder() -> str:
-    """
-    Returns folder the python executable is in
-
-    :return: Absolute path to Python folder
-    """
-    return Path(get_sys_path()).parent
-
-
-def get_sys_scripts_folder() -> str:
-    """
-    Returns the system scripts folder
-
-    :return: Absolute path to Python scripts folder
-    """
-    return os.path.join(get_sys_folder(), 'Scripts')
-
-
 def get_full_filepath(folder: str, base_name: str) -> str:
     """
     This gets an absolute path to a file of an unknown extension

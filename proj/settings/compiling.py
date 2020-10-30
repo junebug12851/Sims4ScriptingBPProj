@@ -1,7 +1,8 @@
 import os
 from proj.settings import mods_path, mod_name, project_build_path
 
-compiled_ext = ".ts4script"
+compiled_package_ext = ".ts4script"
+compiled_file_ext = ".pyc"
 
 # Variables that depend on other variables need to be enclosed in a function so that if the user overrides the variables
 # the changes will be reflected.
@@ -20,7 +21,7 @@ def compile_mod_to_build_path() -> str:
     The full path to compile the mod to inside the project build dir
     """
 
-    return os.path.join(project_build_path(), mod_name() + compiled_ext)
+    return os.path.join(project_build_path(), mod_name() + compiled_package_ext)
 
 
 def compile_mod_to_mods_path() -> str:
@@ -28,4 +29,4 @@ def compile_mod_to_mods_path() -> str:
     The full path to compile the mod to inside the games mods folder
     """
 
-    return os.path.join(mods_subdir_path(), mod_name() + compiled_ext)
+    return os.path.join(mods_subdir_path(), mod_name() + compiled_package_ext)
