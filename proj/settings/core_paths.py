@@ -25,7 +25,7 @@ projects_path = os.path.expanduser(
 game_path_windows = os.path.join('C:', os.sep, 'Program Files (x86)', 'Origin Games', 'The Sims 4')
 game_path_darwin = os.path.expanduser(os.path.join('~', 'Applications', 'The Sims 4.app', 'Contents'))
 
-# PyCharm Pro Windows
+# Location of PyCharm Pro
 pycharm_pro_path_windows = os.path.join('C:', os.sep, 'Program Files', 'JetBrains', 'PyCharm 2020.2.2')
 pycharm_pro_path_darwin = os.path.expanduser(os.path.join('~', 'Applications', 'PyCharm 2020.app', 'Contents'))
 
@@ -38,6 +38,7 @@ else:
 
 # ONLY FOR USERS OF PYCHARM PRO: Location of PyCharm Professional for debug setup
 # You do not need to use PyCharm at all or the professional version, ignore this setting if you are not
+# Pick between the default windows or mac PyCharm Pro folder location
 pycharm_pro_path = ""
 if cur_platform == "Windows":
     pycharm_pro_path = pycharm_pro_path_windows
