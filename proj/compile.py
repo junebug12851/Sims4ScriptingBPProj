@@ -23,32 +23,7 @@ from Utility.helpers_path import remove_file, ensure_path_created, get_rel_path,
 from Utility.helpers_symlink import symlink_remove_win, symlink_exists_win
 
 
-def compile_slim(src_dir: str, zf: PyZipFile) -> None:
-    """
-    Compiles a slim mod (Contains only the pyc files)
-    Modified from andrew's code.
-    https://sims4studio.com/thread/15145/started-python-scripting
-
-    It is not reccomended to use this function because it's not reccomended to only have pyc files in your project
-    as it makes your project less flexible. Going forward this will nto be called by default.
-
-    :param src_dir: source folder
-    :param zf: Zip File Handle
-    :return: Nothing
-    """
-
-    for folder, subs, files in os.walk(src_dir):
-        for filename in fnmatch.filter(files, '*.py'):
-            file_path_py = folder + os.sep + filename
-            file_path_pyc = replace_extension(file_path_py, "pyc")
-            rel_path_pyc = get_rel_path(file_path_pyc, src_dir)
-
-            py_compile.compile(file_path_py, file_path_pyc)
-            zf.write(file_path_pyc, rel_path_pyc)
-            remove_file(file_path_pyc)
-
-
-def compile_full(src_dir: str, zf: PyZipFile) -> None:
+def compile_folder(src_dir: str, zf: PyZipFile) -> None:
     """
     Compiles a full mod (Contains all files in source including python files which it then compiles
     Modified from andrew's code.
@@ -73,7 +48,7 @@ def compile_full(src_dir: str, zf: PyZipFile) -> None:
             zf.write(folder + os.sep + filename, rel_path)
 
 
-def compile_src(creator_name: str, src_dir: str, build_dir: str, mods_dir: str, mod_name: str = "Untitled") -> None:
+def compile_package_folder(creator_name: str, src_dir: str, build_dir: str, mods_dir: str, mod_name: str = "Untitled") -> None:
     """
     Packages your mod into a proper mod file. It creates 2 mod files, a full mod file which contains all the files
     in the source folder unchanged along with the compiled python versions next to uncompiled ones and a slim mod-file
@@ -89,14 +64,6 @@ def compile_src(creator_name: str, src_dir: str, build_dir: str, mods_dir: str, 
     :param mod_name: Name to call the mod
     :return: Nothing
     """
-
-    # Prepend creator name to mod name
-    mod_name = creator_name + '_' + mod_name
-    mods_sub_dir = os.path.join(mods_dir, mod_name)
-
-    # Create ts4script paths
-    ts4script_full_build_path = os.path.join(build_dir, mod_name + '.ts4script')
-    ts4script_mod_path = os.path.join(mods_sub_dir, mod_name + '.ts4script')
 
     print("Clearing out old builds...")
 

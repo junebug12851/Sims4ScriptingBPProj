@@ -7,6 +7,7 @@ from proj.settings.decompiling import *
 from proj.settings.project import *
 from proj.settings.projects import *
 from proj.settings.mods import *
+from proj.settings.compiling import *
 
 # Attempt to import user-overides, replacing defaults
 try:

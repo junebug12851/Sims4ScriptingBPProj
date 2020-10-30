@@ -10,6 +10,9 @@ from proj.settings import game_path, cur_platform
 # ssinakhot tested these decompilers and determined this order is the best for both speed and accuracy.
 decompilers = ['unpyc3', 'decompyle3', 'uncompyle6']
 
+# Valid Sims 4 script extensions
+valid_extensions = ['.zip', '.ts4script']
+
 # Variables that depend on other variables need to be enclosed in a function so that if the user overrides the variables
 # the changes will be reflected.
 
