@@ -1,13 +1,22 @@
 import os
 
 # Folder that contains global files for all projects
-from proj.settings import projects_folder
+from proj.settings import projects_path
 
-projects_output_name = "__util"
+projects_lib_folder = "__util"
 
-# Subpath inside the projects folder to place decompiled python files
-projects_python_subpath = projects_output_name + os.sep + "Python"
-projects_tuning_subpath = projects_output_name + os.sep + "Tuning"
 
-projects_python_path = os.path.join(projects_folder, projects_python_subpath)
-projects_tuning_path = os.path.join(projects_folder, projects_tuning_subpath)
+def projects_python_subpath():
+    return projects_lib_folder + os.sep + "Python"
+
+
+def projects_tuning_subpath():
+    return projects_lib_folder + os.sep + "Tuning"
+
+
+def projects_python_path():
+    return os.path.join(projects_path, projects_python_subpath())
+
+
+def projects_tuning_path():
+    return os.path.join(projects_path, projects_tuning_subpath())

@@ -14,12 +14,20 @@ project_assets_name = "assets"
 # Folder that contains the internal template files
 project_internal_name = "proj"
 
-# Folder that contains the internal template files
-project_mods_subpath = project_internal_name + os.sep + "mods"
-
-# The project folder path itself
 project_path = str(Path(__file__).parent.parent.parent)
 
-project_src_path = os.path.join(project_path, project_src_name)
-project_build_path = os.path.join(project_path, project_build_name)
-project_assets_path = os.path.join(project_path, project_assets_name)
+
+def project_mods_subpath():
+    return project_internal_name + os.sep + "mods"
+
+
+def project_src_path():
+    return os.path.join(project_path, project_src_name)
+
+
+def project_build_path():
+    return os.path.join(project_path, project_build_name)
+
+
+def project_assets_path():
+    return os.path.join(project_path, project_assets_name)
