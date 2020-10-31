@@ -83,7 +83,7 @@ def devmode_remove_windows(settings) -> bool:
         print("")
         raise
     else:
-        print("Left DevMode")
+        print("Left Dev Mode")
 
     return success
 

@@ -3,6 +3,7 @@ from proj.settings import mods_path, mod_name, project_build_path
 
 compiled_package_ext = ".ts4script"
 compiled_file_ext = ".pyc"
+source_file_ext = ".py"
 
 # Variables that depend on other variables need to be enclosed in a function so that if the user overrides the variables
 # the changes will be reflected.
