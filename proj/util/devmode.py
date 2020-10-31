@@ -11,6 +11,7 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+from proj.util.mod_folder import safely_remove_mod_folder
 from proj.util.path import remove_dir, ensure_path_created
 from proj.util.run import exec_cmd
 from pathlib import Path
@@ -18,7 +19,7 @@ from pathlib import Path
 import os
 
 
-def symlink_exists_win(settings) -> bool:
+def devmode_exists_windows(settings) -> bool:
     """
     Checks to see if a Scripts folder or file exists inside the Mod Folder
 
@@ -26,13 +27,17 @@ def symlink_exists_win(settings) -> bool:
     :return: Whether a "Scripts" file or folder does exist in the Mod Folder
     """
 
+    if settings.cur_platform != "Windows":
+        print("Error: This function can only be called on Windows")
+        return False
+
     return os.path.exists(settings.mods_subdir_scripts_path())
 
 
-def symlink_remove_win(creator_name: str, mods_dir: str, mod_name: str = "Untitled") -> None:
+def devmode_remove_windows(settings) -> bool:
     """
-    Safely removes the Mod Name Folder
-    /Mods/ModName/
+    Safely removes the Mod Name Scripts Folder
+    /Mods/ModName/Scripts
 
     This is very critical! In order to use symlinks on Windows without requiring admin privs we have to use
     "Directory Junctions", it's a special type of symlink intended for different purposes but works for our case.
@@ -44,68 +49,77 @@ def symlink_remove_win(creator_name: str, mods_dir: str, mod_name: str = "Untitl
     will forever lose all the files they were working on as part of their project unless they had a backup elsewhere.
     Their hard work vanishes before their eyes just like that.
 
-    This is unnacceptable, to have a safety process in check, this function removes the mod folder, safely removing
-    the scripts folder beforehand. If it's unable to it creates a crash so as to not proceed.
+    This is unnacceptable, to have a safety process in check, this function removes the mod scripts folder,
+    safely removing the scripts folder beforehand. If it's unable to it creates a crash so as to not dangerously
+    proceed.
 
-    Always use this function to remove the Mod Name Folder
+    Always use this function first before removing the folder
 
-    :param creator_name: Creator Name
-    :param mods_dir: Path to the Mods Folder
-    :param mod_name: Name of Mod
+    :param settings: Settings object to read settings from
     :return: Nothing
     """
 
-    # Build paths
-    scripts_path = get_scripts_path(creator_name, mods_dir, mod_name)
-    mod_folder_path = str(Path(scripts_path).parent)
+    if settings.cur_platform != "Windows":
+        print("Error: This function can only be called on Windows")
+        return True
 
     # Check whether the Scripts folder exists
-    exists = symlink_exists_win(creator_name, mods_dir, mod_name)
+    exists = devmode_exists_windows(settings)
+
+    # Return if it doesn't
+    if not exists:
+        return True
 
     # Delete the Scripts folder and check whether it was successful
-    success = exec_cmd("rmdir", '"' + scripts_path + '"')
+    success = exec_cmd("rmdir", settings.mods_subdir_scripts_path())
 
     # If the Scripts folder exists but could not be deleted then print an error message and raise an exception
-    if exists and not success:
+    if not success:
         print("")
         print("Error: Scripts folder exists but can't be removed... Did you create a Scripts folder inside the Mod "
               "Folder at: ")
-        print(scripts_path)
+        print(settings.mods_subdir_scripts_path())
         print("If so, please manually delete it and try again.")
         print("")
         raise
+    else:
+        print("Left DevMode")
 
-    # Otherwise remove the directory
-    remove_dir(mod_folder_path)
+    return success
 
 
-def symlink_create_win(creator_name: str, src_dir: str, mods_dir: str, mod_name: str = "Untitled") -> None:
+def devmode_create_windows(settings) -> bool:
     """
     Creates a symlink, it first wipes out the mod that may be there. When entering devmode, you don't compile anymore,
     so any compiled code needs to be removed.
 
-    :param creator_name: Creator Name
-    :param src_dir: Path to the source folder in this project
-    :param mods_dir: Path to the Mods Folder
-    :param mod_name: Name of Mod
+    :param settings: Settings object to read settings from
     :return: Nothing
     """
 
-    # Build paths
-    scripts_path = get_scripts_path(creator_name, mods_dir, mod_name)
-    mod_folder_path = str(Path(scripts_path).parent)
+    if settings.cur_platform != "Windows":
+        print("Error: This function can only be called on Windows")
+        return True
 
-    # Safely remove folder with symlink
-    symlink_remove_win(creator_name, mods_dir, mod_name)
+    if devmode_exists_windows(settings):
+        print("You're already in DevMode")
+        return True
+
+    # Safely remove folder
+    safely_remove_mod_folder(settings)
 
     # Re-create folder
-    ensure_path_created(mod_folder_path)
+    ensure_path_created(settings.mods_subdir_path())
 
     # Create Scripts Folder as a Directory Junction
-    exec_cmd("mklink",
-             '/J ' +
-             '"' + scripts_path + '" '
-             '"' + src_dir + '"')
+    success = exec_cmd("mklink",
+                       "/J ",
+                       settings.mods_subdir_scripts_path(),
+                       settings.project_src_path())
+
+    if not success:
+        print("Error: Unable to enter DevMode")
+        return False
 
     print("")
     print("Dev Mode is activated, you no longer have to compile after each change, run devmode.reload [path.of.module]")
@@ -113,3 +127,4 @@ def symlink_create_win(creator_name: str, src_dir: str, mods_dir: str, mod_name:
     print("return things to normal.")
     print("It's recomended to test a compiled version before final release after working in Dev Mode")
     print("")
+    return True
