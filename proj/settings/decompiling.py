@@ -13,6 +13,17 @@ decompilers = ['unpyc3', 'decompyle3', 'uncompyle6']
 # Valid Sims 4 script extensions
 valid_extensions = ['.zip', '.ts4script']
 
+# Progress bar success and fail marks
+progress_mark_success = "."
+progress_mark_fail = "x"
+
+# Progress bar length before wrapping to next line
+# 80 is the defacto standard <2010
+# 120 is the defacto standard >2010
+# I chose 80 because despite it being pre 2010 it's guarenteed to cover all terminal sizes, window sizes,
+# and screen sizes and it just looks pretty lol
+progress_length = 80
+
 # Variables that depend on other variables need to be enclosed in a function so that if the user overrides the variables
 # the changes will be reflected.
 

@@ -26,10 +26,6 @@ from Utility.helpers_package import install_package, exec_package
 from Utility.helpers_time import get_time, get_time_str, get_minutes
 from Utility.helpers_unpyc3 import unpyc3_decompile
 
-# Globals
-script_package_types = ['*.zip', '*.ts4script']
-python_compiled_ext = "*.pyc"
-
 # Global counts and timings for all the tasks
 total_suc_count = 0
 total_fail_count = 0

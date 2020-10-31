@@ -16,6 +16,15 @@ def mods_subdir_path() -> str:
     return os.path.join(mods_path, mod_name())
 
 
+def mods_subdir_scripts_path() -> str:
+    """
+    Full path to the scripts folder inside the Mod Folder (/Mods/ModName/Scripts) that will house the compiled project
+    files
+    """
+
+    return os.path.join(mods_path, mod_name(), "Scripts")
+
+
 def compile_mod_to_build_path() -> str:
     """
     The full path to compile the mod to inside the project build dir
