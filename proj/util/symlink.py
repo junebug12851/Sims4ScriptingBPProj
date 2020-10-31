@@ -11,76 +11,22 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
-from Utility.helpers_path import remove_dir, ensure_path_created
+from proj.util.path import remove_dir, ensure_path_created
+from proj.util.run import exec_cmd
 from pathlib import Path
 
 import os
-from subprocess import run
 
 
-def get_scripts_path(creator_name: str, mods_dir: str, mod_name: str = "Untitled") -> str:
-    """
-    This builds a path to the Scripts folder inside the Mod Folder
-
-    :param creator_name: Creator Name
-    :param mods_dir: Path to the Mods Folder
-    :param mod_name: Name of Mod
-    :return: Path to Scripts folder inside Mod Name Folder
-    """
-
-    # creator_name can be omitted, if it's not then prefix it
-    if creator_name:
-        mod_name = creator_name + '_' + mod_name
-
-    # Build absolute path to mod name folder
-    mods_sub_dir = os.path.join(mods_dir, mod_name)
-
-    # Return path to Scripts folder inside Mod name Folder
-    return os.path.join(mods_sub_dir, "Scripts")
-
-
-def exec_cmd(cmd: str, args: str) -> bool:
-    """
-    This executes a system command and returns whether it was successful or not
-
-    :param cmd: Command to execute
-    :param args: Any arguments to command
-    :return: Successful or not
-    """
-
-    # Result object of the command
-    # If an error occurs, this will be the value used
-    result = None
-
-    try:
-        # Run the command and capture output
-        result = run(cmd + " " + args,
-                     capture_output=True,
-                     text=True,
-                     shell=True)
-    except:
-        pass
-
-    # If the command completely crashed then return false
-    if result is None:
-        return False
-
-    # Otherwise return false if stderr contains error messages and/or the return code is not 0
-    return (not str(result.stderr)) and (result.returncode == 0)
-
-
-def symlink_exists_win(creator_name: str, mods_dir: str, mod_name: str = "Untitled") -> bool:
+def symlink_exists_win(settings) -> bool:
     """
     Checks to see if a Scripts folder or file exists inside the Mod Folder
 
-    :param creator_name: Creator Name
-    :param mods_dir: Path to the Mods Folder
-    :param mod_name: Name of Mod
+    :param settings: Settings object to read settings from
     :return: Whether a "Scripts" file or folder does exist in the Mod Folder
     """
 
-    scripts_path = get_scripts_path(creator_name, mods_dir, mod_name)
-    return os.path.exists(scripts_path)
+    return os.path.exists(settings.mods_subdir_scripts_path())
 
 
 def symlink_remove_win(creator_name: str, mods_dir: str, mod_name: str = "Untitled") -> None:

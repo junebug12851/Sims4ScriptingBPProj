@@ -12,11 +12,10 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 import os
+from proj.util.run import exec_cmd
 
-from subprocess import run, call, DEVNULL
 
-
-def install_package(settings, package: str, package_check: str = None) -> None:
+def install_package(settings, package: str, package_check: str = None) -> bool:
     """
     This installs a package if it doesn't exist
 
@@ -26,24 +25,36 @@ def install_package(settings, package: str, package_check: str = None) -> None:
     :param settings: Settings object to read settings from
     :param package: Package name to install
     :param package_check: Package name to check is installed, if none is provided defaults to package variable.
-    :return: Nothing
+    :return: Successfully installed/already installed or failure to install
     """
 
+    print("Checking to see if " + package + " is installed...")
+
+    # Default to package if empty
     if not package_check:
         package_check = package
 
+    success = False
+
+    # Attempt to import and attempt to install if unable to import
     try:
         __import__(package_check)
+        success = True
+        print(package + " is already installed!")
     except:
-        call([
-            settings.sys_path,
-            "-m",
-            "pip",
-            "install",
-            package
-        ],
-            stdout=DEVNULL,
-            stderr=DEVNULL)
+        print(package + " not installed, installing now...")
+        success = exec_cmd(settings.sys_path,
+                           "-m",
+                           "pip",
+                           "install",
+                           package)
+
+        if success:
+            print("Successfully installed!")
+        else:
+            print("Failed to install...")
+
+    return success
 
 
 def exec_package(settings, package: str, *args) -> bool:
@@ -57,5 +68,4 @@ def exec_package(settings, package: str, *args) -> bool:
     """
 
     cmd = settings.sys_scripts_path + os.sep + package + settings.sys_scripts_ext
-    result = run([cmd] + list(args), capture_output=True, text=True)
-    return (not str(result.stderr)) and (result.returncode == 0)
+    return exec_cmd(cmd, *args)
