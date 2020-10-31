@@ -22,3 +22,12 @@ if cur_platform == "Windows":
     sys_scripts_path = sys_scripts_path_windows
 else:
     sys_scripts_path = sys_scripts_path_darwin
+
+sys_scripts_ext_windows = ".exe"
+sys_scripts_ext_darwin = ""
+
+sys_scripts_ext = ""
+if cur_platform == "Windows":
+    sys_scripts_ext = sys_scripts_ext_windows
+else:
+    sys_scripts_ext = sys_scripts_ext_darwin

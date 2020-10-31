@@ -11,41 +11,51 @@
 #    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
+import os
 
-from subprocess import run, PIPE, call, DEVNULL
-from Utility.helpers_path import get_sys_path, get_sys_scripts_folder, get_full_filepath
+from subprocess import run, call, DEVNULL
 
 
-def install_package(package: str) -> None:
+def install_package(settings, package: str, package_check: str = None) -> None:
     """
     This installs a package if it doesn't exist
 
     Thank you bradgonesurfing
     https://stackoverflow.com/questions/57593111/how-to-call-pip-from-a-python-script-and-make-it-install-locally-to-that-script
 
-    :param package: Package name to ensure is installed
+    :param settings: Settings object to read settings from
+    :param package: Package name to install
+    :param package_check: Package name to check is installed, if none is provided defaults to package variable.
     :return: Nothing
     """
-    # noinspection PyBroadException
+
+    if not package_check:
+        package_check = package
+
     try:
-        __import__(package)
+        __import__(package_check)
     except:
-        cmd = get_sys_path()
-        args = "-m pip install " + package
-        call(cmd + " " + args,
-             stdout=DEVNULL,
-             stderr=DEVNULL)
+        call([
+            settings.sys_path,
+            "-m",
+            "pip",
+            "install",
+            package
+        ],
+            stdout=DEVNULL,
+            stderr=DEVNULL)
 
 
-def exec_package(package: str, args: str) -> bool:
+def exec_package(settings, package: str, *args) -> bool:
     """
     Executes the cli version of an installed python package
 
+    :param settings: Settings object to read settings from
     :param package: Package name to execute
     :param args: Arguments to provide to the package
     :return: Return code for failure or success
     """
 
-    cmd = get_full_filepath(get_sys_scripts_folder(), package)
-    result = run(cmd + " " + args, capture_output=True, text=True)
+    cmd = settings.sys_scripts_path + os.sep + package + settings.sys_scripts_ext
+    result = run([cmd] + list(args), capture_output=True, text=True)
     return (not str(result.stderr)) and (result.returncode == 0)
