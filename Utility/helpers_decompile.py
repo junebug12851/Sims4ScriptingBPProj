@@ -24,6 +24,7 @@ from pathlib import Path
 from Utility.helpers_path import replace_extension, get_rel_path, get_file_stem, ensure_path_created
 from Utility.helpers_package import install_package, exec_package
 from Utility.helpers_time import get_time, get_time_str, get_minutes
+from Utility.helper_thread import multithread_run
 
 # Globals
 script_package_types = ['*.zip', '*.ts4script']
@@ -77,6 +78,31 @@ def decompile_dir(src_dir: str, dest_dir: str, filename: str) -> None:
     fail_count = 0
     count = 0
 
+    def on_decompile_done(name, success):
+        # Print progress
+        # Prints a single dot on the same line which gives a nice clean progress report
+        # Tally number of files and successful / failed files
+        nonlocal count, col_count, suc_count, fail_count
+        global total_suc_count, total_fail_count, total_count
+        if success:
+            print(".", end="")
+            suc_count += 1
+            total_suc_count += 1
+        else:
+            print("x", end="")
+            fail_count += 1
+            total_fail_count += 1
+        
+        count += 1
+        total_count += 1
+
+        # Insert a new progress line every 80 characters
+        col_count += 1
+        if col_count >= 80:
+            col_count = 0
+            print("")
+
+    args_list = []
     # Go through each compiled python file in the folder
     for root, dirs, files in os.walk(src_dir):
         for filename in fnmatch.filter(files, python_compiled_ext):
@@ -92,31 +118,11 @@ def decompile_dir(src_dir: str, dest_dir: str, filename: str) -> None:
             # Make sure to strip off the file name at the end
             ensure_path_created(str(Path(dest_file_path).parent))
 
-            # Decompile it to destination
-            success = exec_package("uncompyle6",
-                                   "-o " + '"' + dest_file_path + '"' + " " +
-                                   '"' + src_file_path + '"')
+            # pack args to run
+            args_list.append((src_file_path, ["uncompyle6", f'-o "{dest_file_path}" "{src_file_path}"' ], {}))
 
-            # Print progress
-            # Prints a single dot on the same line which gives a nice clean progress report
-            # Tally number of files and successful / failed files
-            if success:
-                print(".", end="")
-                suc_count += 1
-                total_suc_count += 1
-            else:
-                print("x", end="")
-                fail_count += 1
-                total_fail_count += 1
-
-            count += 1
-            total_count += 1
-
-            # Insert a new progress line every 80 characters
-            col_count += 1
-            if col_count >= 80:
-                col_count = 0
-                print("")
+    # Decompile it to destination
+    multithread_run(exec_package, on_decompile_done, args_list)
 
     time_end = get_time()
     elapsed_minutes = get_minutes(time_end, time_start)
