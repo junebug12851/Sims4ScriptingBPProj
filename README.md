@@ -1,3 +1,19 @@
+# No Longer Maintained
+
+I am very sad to write this, I'm actually a little bit in tears lol. I have a strong programming background with many years of expirience so I though I could jump in and write a tutorial on how to start programming mods with the Sims and then get more advanced. I started a small little fun tutorial on Medium and eventually created this little project here to help automate it.
+
+I did not expect for it to grow so much!!!! This is the 3rd most successful little series I've ever made. I get dozens of notifications a day from people months after I last updated it. It makes me very happy that it's helped so many people and even featured by several places. It's all a bit unbelivable lol.
+
+However, despite my background in programming, I realized that the sims 4 was just too much for me to understand. It was too overwhelming, and the more and more I dug for answers the more questions I had. I couldn't figure out anything but I tried my best. Eventually I realized that this just wasn't going to work. The code is very intense without any kind of help and new tutorials were going to be farther and farther apart. I realized I was going to fail on my promise that I would take you from beginner to advanced which made me a bit sad.
+
+The last thing I was doing was working on a new config system to make it even easier to work this tool and to make it even more powerful and fully cross-compatible, I got about 50% done before I moved on. I don't recall if I published it or not, the rewrite that was 50% done.
+
+But my life was very very different back then, I don't program anymore, I realized it just wasn't in my passion. This project was the last serious thing I programmed. Since then I started a small Minecraft server and made some simple plugins for it and now I'm a full-time VTuber. My life has drastically changed since I started this.
+
+I'm very sorry for letting everyone down but given the popularity of this project I started, it's fair to announce it's abandonment. I never got past beginner stage for the sims 4 like I thought I would with my programming background, which means I can't teach others how to do the same either. This is the 3rd most successful thing I've made so Im very sorry to dispoint everyone but it makes me very happy to learn I still helped so many people.
+
+Please stay awesome and good luck!!!!!!
+
 # Sims 4 Scripting Boilerplate Project
 
 This is a bolerplate project, sort of like a pre-made template and it represents one project so you can copy it for new 
